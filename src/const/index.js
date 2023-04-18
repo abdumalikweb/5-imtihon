@@ -1,2 +1,4 @@
-export const ENDPOINT = "https://breezy-grain-production.up.railway.app/api/v1";
+export const ENDPOINT =
+  "https://portfolio-backend-production-872a.up.railway.app/api/v1/";
 export const TOKEN = "PORTFOLIO-TOKEN";
+export const USER_ROLES=["admin","client","user"];

@@ -6,14 +6,15 @@ import {
   Messege,
   Portfolios,
   Skills,
+  Users,
 } from "./Pages/admin";
-import {  Login, Register } from "./Pages/front";
+import { Login, Register } from "./Pages/front";
 
 import { TOKEN } from "./const";
+import AdminLayout from "./Components/Layout/admin";
 
 function App() {
   const frontroutes = [
-    
     {
       url: "",
       page: Login,
@@ -44,39 +45,35 @@ function App() {
       url: "skills",
       page: Skills,
     },
+    {
+      url: "users",
+      page: Users,
+    },
   ];
   const token = localStorage.getItem(TOKEN);
   return (
     <Router>
       <Routes>
         {frontroutes.map(({ url, page: Page }) => (
-          <Route
-            path={"/" + url}
-            key={url}
-            element={
-            
-                <Page />
-            
-            }
-          ></Route>
+          <Route path={"/" + url} key={url} element={<Page />}></Route>
         ))}
       </Routes>
       <Routes>
-        {token && adminroutes.map(({ url, page: Page }) => (
-          <Route
-            path={"/" + url}
-            key={url}
-            element={
-            
-                <Page />
-              
-            }
-          />
-        ))}
+        {token &&
+          adminroutes.map(({ url, page: Page }) => (
+            <Route
+              path={"/" + url}
+              key={url}
+              element={
+                <AdminLayout>
+                  <Page />
+                </AdminLayout>
+              }
+            />
+          ))}
       </Routes>
     </Router>
   );
 }
-
 
 export default App;

@@ -1,8 +1,11 @@
 import axios from "axios";
-import { ENDPOINT } from "../const";
+import { ENDPOINT, TOKEN } from "../const";
+let token = localStorage.getItem(TOKEN);
 
-export const request = axios.create({
+export const request  = axios.create({
   baseURL: ENDPOINT,
   timeout: 10000,
-  header: { "X-Custom-Header": "foobar" },
+  headers: { authorization : token ? `Bearer ${token}` : ""},
 });
+
+
