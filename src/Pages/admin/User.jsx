@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {Button, Form, Input, Modal, Select, Table,} from "antd"
 import { useEffect } from 'react';
-import { getUser, sendData } from '../../server/common';
+import { getUser, putUser, sendData } from '../../server/common';
 import { USER_ROLES } from '../../const';
 import { Slide, toast, ToastContainer } from 'react-toastify';
 import {EditOutlined,DeleteOutlined} from "@ant-design/icons";
@@ -94,14 +94,26 @@ getUser(`users/${id}`).then((res)=>{
   const handleOk = () => {
     form.validateFields().then((values)=>{
       delete values.confirm;
-      delete values.role;
-      // console.log(values);
+  if(selected){
+putUser(`users/${selected}`,values).then(()=>{
+userData()
+  setIsModalOpen(false);
 
-      sendData("users", values)
-      .then((res)=>{userData();})
+})
+  }else{
+    sendData("users", values)
+      .then(()=>{userData();})
       .catch(()=>{
     toast.error("Server Error !",{ autoClose: 1000, })
    })
+  }
+      // console.log(values);
+// sendData("users", values)
+//       .then(()=>{userData();})
+//       .catch(()=>{
+//     toast.error("Server Error !",{ autoClose: 1000, })
+//    })
+  
 
   });
     setIsModalOpen(false);

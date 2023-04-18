@@ -7,3 +7,7 @@ export const sendData = (url, data) => {
 export const getUser = (url)=>{
   return request.get(url);
 }
+
+export const putUser = (url,data) => {
+  return request.put(url,data);
+};
