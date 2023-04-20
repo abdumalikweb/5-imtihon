@@ -1,17 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import {
-  Dashboard,
-  Experiences,
-  Messege,
-  Portfolios,
-  Skills,
-  Users,
-} from "./Pages/admin";
+
 import { Login, Register } from "./Pages/front";
 
-import { TOKEN } from "./const";
+import { TOKEN,  } from "./const";
 import AdminLayout from "./Components/Layout/admin";
+import { ROLE } from "./utils";
+import { adminRoutes } from "./const/menu";
 
 function App() {
   const frontroutes = [
@@ -24,33 +19,8 @@ function App() {
       page: Register,
     },
   ];
-  const adminroutes = [
-    {
-      url: "dashboard",
-      page: Dashboard,
-    },
-    {
-      url: "experiences",
-      page: Experiences,
-    },
-    {
-      url: "message",
-      page: Messege,
-    },
-    {
-      url: "portfolio",
-      page: Portfolios,
-    },
-    {
-      url: "skills",
-      page: Skills,
-    },
-    {
-      url: "users",
-      page: Users,
-    },
-  ];
-  const token = localStorage.getItem(TOKEN);
+ 
+  const isAuthorized = localStorage.getItem(TOKEN)&& ROLE !=="user";
   return (
     <Router>
       <Routes>
@@ -59,8 +29,8 @@ function App() {
         ))}
       </Routes>
       <Routes>
-        {token &&
-          adminroutes.map(({ url, page: Page }) => (
+        {isAuthorized &&
+          adminRoutes.map(({ url, page: Page }) => (
             <Route
               path={"/" + url}
               key={url}

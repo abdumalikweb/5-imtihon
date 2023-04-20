@@ -1,16 +1,14 @@
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  BookOutlined,
-  UserSwitchOutlined,
-  AppstoreOutlined,
-  VideoCameraOutlined,
-  MessageOutlined,
-  IdcardOutlined,
+
+  LogoutOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, theme } from "antd";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { TOKEN } from "../../../const";
+import { adminRoutes } from "../../../const/menu";
 import "../../../sass/Adminlayout.scss";
 
 const { Header, Sider, Content } = Layout;
@@ -20,6 +18,14 @@ const AdminLayout = ({children}) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+const logout =()=>{
+  localStorage.removeItem(TOKEN);
+  window.location.href = "/";
+};
+
+
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -29,59 +35,15 @@ const AdminLayout = ({children}) => {
           mode="inline"
           defaultSelectedKeys={["0"]}
           items={[
+...adminRoutes.map((menu, i)=>({
+  key:i,
+ 
+  icon:<Link to={"/"+ menu.url}>{menu.icon}</Link>,
+  label:menu.label,
+
+})),
             {
-              key: "0",
-              icon: (
-                <Link to="/dashboard">
-                  <AppstoreOutlined />
-                </Link>
-              ),
-              label: "Dashboard",
-            },
-            {
-              key: "1",
-              icon: (
-                <Link to="/users">
-                  <UserSwitchOutlined />
-                </Link>
-              ),
-              label: "User",
-            },
-            {
-              key: "2",
-              icon: (
-                <Link to="/experiences">
-                  <VideoCameraOutlined />
-                </Link>
-              ),
-              label: "Experiences",
-            },
-            {
-              key: "3",
-              icon: (
-                <Link to="/portfolio">
-                  <IdcardOutlined />
-                </Link>
-              ),
-              label: "Portfolios",
-            },
-            {
-              key: "4",
-              icon: (
-                <Link to="/skills">
-                  <BookOutlined />
-                </Link>
-              ),
-              label: "Skills",
-            },
-            {
-              key: "5",
-              icon: (
-                <Link to="/message">
-                  <MessageOutlined />
-                </Link>
-              ),
-              label: "Message",
+              icon: <Button onClick={logout} danger type="primary" icon={<LogoutOutlined />}>Logout</Button>,
             },
           ]}
         />
@@ -109,7 +71,7 @@ const AdminLayout = ({children}) => {
             background: colorBgContainer,
           }}
         >
-         {children}
+          {children}
         </Content>
       </Layout>
     </Layout>

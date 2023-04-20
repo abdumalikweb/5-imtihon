@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {Button, Form, Input, Modal, Select, Table,} from "antd"
 import { useEffect } from 'react';
-import { getUser, putUser, sendData } from '../../server/common';
+import { deleteData, getUser, putUser, sendData } from '../../server/common';
 import { USER_ROLES } from '../../const';
 import { Slide, toast, ToastContainer } from 'react-toastify';
 import {EditOutlined,DeleteOutlined} from "@ant-design/icons";
@@ -81,8 +81,11 @@ getUser(`users/${id}`).then((res)=>{
 
 }
   
-  function deleteUser() {
-    
+  function deleteUser(id) {
+    deleteData(`users/${id}`).then(()=>{
+ toast.success(`${id} user ochirildi`,{ autoClose: 1000, });
+ userData()
+    })
   }
 
 
@@ -95,8 +98,11 @@ getUser(`users/${id}`).then((res)=>{
     form.validateFields().then((values)=>{
       delete values.confirm;
   if(selected){
-putUser(`users/${selected}`,values).then(()=>{
-userData()
+
+    values.password || delete values.password;
+  putUser(`users/${selected}`, values).then(()=>{
+  toast.success("Good change",{ autoClose: 1000, })
+  userData()
   setIsModalOpen(false);
 
 })
@@ -107,13 +113,7 @@ userData()
     toast.error("Server Error !",{ autoClose: 1000, })
    })
   }
-      // console.log(values);
-// sendData("users", values)
-//       .then(()=>{userData();})
-//       .catch(()=>{
-//     toast.error("Server Error !",{ autoClose: 1000, })
-//    })
-  
+
 
   });
     setIsModalOpen(false);
@@ -144,6 +144,7 @@ const openFormModal = () =>{
     columns={columns} 
     loading = {loading }
     scroll={{x:600}}/>
+    
 
  <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText="Add user">
 <Form
@@ -159,7 +160,7 @@ const openFormModal = () =>{
    
     >
       <Form.Item
-        name="first_name"
+        name="firstName"
         label="Fist Name"
         rules={[
           {
@@ -172,8 +173,8 @@ const openFormModal = () =>{
       </Form.Item>
 
             <Form.Item
-        name="last_name"
-        label="Last Name"
+        name="lastName"
+        label="lastName"
         rules={[
           {
             required: true,
