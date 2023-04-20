@@ -13,15 +13,14 @@ import { sendData } from '../../server/common';
 
 const Login = () => {
   
-  const {register,handleSubmit}= useForm ();
+  const {register,handleSubmit}= useForm();
+
   const onSubmit = (values)=>{
-     console.log(values);
 sendData("auth/login",values)
    .then((res)=>{
-     console.log(values);
     localStorage.setItem(TOKEN, res.data.token);
     localStorage.setItem(USER, JSON.stringify(res.data.user));
-    if(res.data.user.role !== "user"){
+    if(res.data.user.role !== "user" ){
       toast.success("xush Kelibsiz")
     window.location.href="/dashboard"
     }else{

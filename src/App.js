@@ -20,7 +20,7 @@ function App() {
     },
   ];
  
-  const isAuthorized = localStorage.getItem(TOKEN)&& ROLE !=="user";
+  const isAuthorized = localStorage.getItem(TOKEN) && ROLE !=="user";
   return (
     <Router>
       <Routes>

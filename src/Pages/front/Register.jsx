@@ -14,11 +14,9 @@ import { sendData } from '../../server/common';
 const Register = () => {
   
   const {register,handleSubmit}= useForm ();
-  const onSubmit = (values)=>{
-     console.log(values);
+  const onSubmitt = (values)=>{
 sendData("auth/register",values)
    .then((res)=>{
-     console.log(values);
       toast.success("xush Kelibsiz")
     localStorage.setItem(TOKEN, res.data.token);
     localStorage.setItem(USER, JSON.stringify(res.data.user));
@@ -31,7 +29,7 @@ sendData("auth/register",values)
     <>
 <div className='bg'>
       <ToastContainer  transition={Slide}/>
-    <form className='formm'  onSubmit={handleSubmit(onSubmit)}>
+    <form className='formm'  onSubmit={handleSubmit(onSubmitt)}>
       <h2>My Partfolios</h2>
       <input  {...register("firstName", { required: true})} type="text" placeholder='Fist name' required />
       
@@ -40,7 +38,7 @@ sendData("auth/register",values)
       <input  {...register("password", { required: true })} type="password" placeholder='password' required />
     <div className="clients"> 
     {/* <label htmlFor="client">Siz partfolio yaratmoqchimisiz</label> */}
-    <input type="checkbox"  {...register("client", { required: true })}  />
+    <input type="checkbox"  {...register("client")}  />
     
     </div>
 
